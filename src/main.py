@@ -14,7 +14,6 @@ import numpy as np
 
 # Load environment variables
 load_dotenv()
-PORT=os.getenv("PORT")
 URL1=os.getenv("WEB_APP_URL")
 
 # Initialize FastAPI App
@@ -148,6 +147,10 @@ def allowed_file(filename):
     ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
+@app.get("/")
+async def root():
+    return {"message": "Welcome!"}
+
 @app.post("/predict")
 async def handle_predict(file: UploadFile = File(...)):
     start=time.time()   
@@ -245,7 +248,7 @@ Include relevant medical information, but remind the user to consult a healthcar
 end=time.time()-start
 print(f"end of server.... {end:.2f}")
 
-# If running the file directly
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+# # If running the file directly
+# if __name__ == "__main__":
+#     import uvicorn
+#     uvicorn.run(app, host="0.0.0.0", port=8000)
